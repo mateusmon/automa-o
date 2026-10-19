@@ -1,0 +1,16 @@
+# DO NOT version this file — add to .svnignore
+
+# PostgreSQL
+# postgresql+psycopg2://user:pass@localhost:5432/mydb
+
+# SQL Server (via pyodbc)
+# mssql+pyodbc://user:pass@host/db?driver=ODBC+Driver+17+for+SQL+Server
+
+# Oracle (via cx_Oracle)
+# oracle+cx_oracle://user:pass@host:1521/?service_name=myservice
+
+clients:
+  pcdf:
+    dsn: "mssql+pyodbc://asisuporte:suportesql@172.20.0.181,1434/PCDF_QAS?driver=ODBC+Driver+18+for+SQL+Server&TrustServerCertificate=yes"
+  seadpb:
+    dsn: "postgresql+psycopg2://asiweb:asiweb@172.20.0.250:5432/seadpb_qas"

@@ -1,0 +1,152 @@
+# LEIA-ME
+
+## Visão geral
+
+Este repositório contém testes automatizados de interface para o sistema ASI (Almoxarifado e Patrimônio), usando Python + Pytest + Playwright.
+
+A documentação completa para novos contribuidores está em `documentacao/GUIA_TESTES.md`.
+
+## Pré-requisitos
+
+- Windows 11 (recomendado)
+- Python 3.14
+- Ambiente virtual (`venv`)
+
+## Como preparar o ambiente
+
+No terminal, na raiz do projeto, após instalar o Python:
+
+```bash
+python -m venv .venv
+```
+
+Ativar ambiente virtual:
+
+```bash
+# Windows
+.venv\Scripts\activate
+```
+
+Instalar dependências e navegadores do Playwright:
+
+```bash
+pip install -r requirements.txt
+playwright install chromium
+```
+
+## Configuração de cliente e ambiente
+
+A configuração de cliente e ambiente é feita atualmente pela interface gráfica do projeto. Caso queira fazer de modo manual (NÃO RECOMENDADO), siga o passo a passo:
+
+Edite `configs/configs.yaml` (ou crie `configs/configs.local.yaml` para sobrescritas locais não versionadas):
+
+```yaml
+cliente_ativo: "pcdf"   # tse | pcdf | pcdfv4 | tremt | sgaac | seadpb
+ambiente: "qas"
+```
+
+O arquivo `configs.local.yaml` não é versionado — use-o para alternar entre clientes sem alterar o arquivo principal. Nunca commite credenciais.
+
+## Como rodar os testes
+
+### Pelo terminal (Pytest)
+
+```bash
+# Arquivo único
+pytest tests/almoxarifado/movimentacao_externa/test_cadastro_transferencia_entre_almoxarifados.py -v
+
+# Módulo completo
+pytest tests/almoxarifado/movimentacao_externa/ -v
+
+# Repetindo N vezes (pytest-repeat)
+pytest tests/almoxarifado/ --count=3
+
+# Filtrar por nome
+pytest -k "test_entrada or test_consulta" -v
+
+# Parar no primeiro erro
+pytest tests/almoxarifado/ -x -v
+```
+
+### Pela interface gráfica
+
+Execute `app.vbs` (sem janela de terminal) ou `app.bat`. A GUI permite selecionar cliente, ambiente e testes individuais.
+
+Documentação detalhada da GUI (arquitetura, catálogo de testes, execução via subprocess, integração com Genesis): `documentacao/GUIA_GUI.md`.
+
+### Variáveis de ambiente
+
+| Variável | Descrição | Padrão |
+| --- | --- | --- |
+| `ASI_SLOW_MO` | Delay do browser em ms (para depuração) | `0` |
+
+## Provisão de dados (Genesis)
+
+Antes de rodar testes em um ambiente novo, provisione os dados:
+
+```bash
+python genesis/genesis_runner.py
+```
+
+> Nota: O Genesis também está presente na GUI (interface gráfica) pelo botão "Prepara Ambiente"
+
+Documentação detalhada do funcionamento interno do Genesis (arquitetura, ordem de execução, convenções e padrão de refatoração v3/v4): `documentacao/GUIA_GENESIS.md`.
+
+## Auditoria da suíte completa (Sentinela)
+
+Ferramenta CLI que executa toda a suíte (ou parte dela) para um ou todos os clientes e gera um relatório HTML consolidado:
+
+```bash
+python sentinela/sentinela.py --cliente tcerj
+```
+
+Acrescente `--pausa` para que uma falha abra a pausa do Playwright e aguarde Resume no
+Inspector; sem a flag (padrão), a falha coleta evidências e fecha o navegador. Os testes do
+Genesis novo sempre pausam em falha quando executados com o navegador visível.
+
+Documentação detalhada: `documentacao/GUIA_SENTINELA.md`.
+
+## Estrutura principal da raiz
+
+```
+configs/
+documentacao/
+domain/
+flows/
+genesis/
+gui/
+logs/
+sentinela/
+tests/
+utils/
+conftest.py
+requirements.txt
+pytest.ini
+app.bat
+app.vbs
+LEIA-ME.txt
+```
+
+## Stack utilizada
+
+- Python 3.14
+- Pytest + pytest-repeat
+- Playwright
+- Loguru
+- Tkinter
+- PyYAML
+- pdfplumber
+
+## Arquivos/pastas que não devem ser versionados
+
+```
+.venv
+__pycache__
+.pytest_cache
+evidencia
+debug_pdf
+.vscode
+configs/configs.local.yaml
+*.pyc
+*.log
+```

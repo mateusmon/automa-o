@@ -1,0 +1,3 @@
+# Dependências do servidor MCP do ASI (ferramenta de apoio à criação de testes).
+# Instale no mesmo venv do projeto:  .venv\Scripts\python.exe -m pip install -r mcps/asi/requirements.txt
+mcp>=1.2

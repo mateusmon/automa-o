@@ -1,0 +1,36 @@
+# Local client configuration and test data contain credentials and customer data.
+/configs/configs.yaml
+/configs/configs.local.yaml
+/genesis/blueprint/*.yaml
+
+# Local environments and generated test artifacts.
+/.venv/
+/.svn/
+/.pytest_cache/
+__pycache__/
+*.py[cod]
+*.log
+/logs/
+/evidencia/
+/trace/
+/artifacts/
+/historico_testes/
+/sentinela/reports/
+/instaladores/
+/genesis/trace/
+
+# Frontend dependencies and build output.
+**/node_modules/
+/web/frontend/dist/
+
+# Local experiments and files with embedded credentials or internal data.
+/avalanche/
+/playground/
+/CLAUDE.md
+/genesis/LEIA-ME.md
+/documentacao/*.docx
+
+# Local environment variables.
+.env
+.env.*
+!.env.example

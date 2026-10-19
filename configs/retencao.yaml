@@ -1,0 +1,22 @@
+# Política de retenção dos artefatos de execução.
+#
+# Fonte única dos TTLs. É lido tanto pela suíte principal (utils/retencao.py)
+# quanto pelo Genesis (genesis/utils/trace.py), que não consegue importar o
+# `utils` da raiz — o Genesis roda com `genesis/` no sys.path. Por isso o que
+# é compartilhado entre os dois é ESTE ARQUIVO (dado), e não código.
+#
+# Os valores são separados por custo de disco, não por tipo de artefato:
+# log e screenshot custam KB e podem ser guardados à vontade; trace custa
+# MB por teste e precisa de mão mais curta.
+
+# Baratos (KB por arquivo) — pode ser generoso.
+logs_dias: 90
+evidencias_dias: 7
+
+# Caro (3–10 MB por teste). Se `trace/` crescer demais, este é o número a baixar.
+traces_dias: 7
+
+# Não é retenção, é limpeza de lixo: pastas `_temp_*` deixadas para trás por
+# execuções que morreram. A margem existe para nunca apagar a pasta de uma
+# execução ainda em andamento, inclusive paralela.
+temporarias_horas: 12

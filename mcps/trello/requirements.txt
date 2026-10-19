@@ -1,0 +1,4 @@
+# Dependências do servidor MCP do Trello.
+# Instale no mesmo venv do projeto:  .venv\Scripts\python.exe -m pip install -r mcps/trello/requirements.txt
+mcp>=1.2
+httpx>=0.27
